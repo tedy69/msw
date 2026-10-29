@@ -38,7 +38,9 @@ export const getWorkerInstance = async (
   if (existingRegistration) {
     // Schedule the worker update in the background.
     // Update ensures the existing worker is up-to-date.
-    existingRegistration.update()
+    existingRegistration.update().catch(() => {
+      // A registration can be removed while the update is in progress.
+    })
 
     // Return the worker reference immediately.
     return [
